@@ -9,11 +9,14 @@ RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories 
     nginx \
     supervisor \
     curl \
+    bc \
     git && \
     mkdir -p /etc/nginx && \
     mkdir -p /var/www/app && \
     mkdir -p /run/nginx && \
     mkdir -p /var/log/supervisor
+
+RUN git clone https://github.com/letsencrypt/letsencrypt /opt/letsencrypt
 
 ADD conf/supervisord.conf /etc/supervisord.conf
 
