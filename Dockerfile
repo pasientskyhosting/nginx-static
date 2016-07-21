@@ -41,6 +41,7 @@ ADD scripts/push /usr/bin/push
 RUN chmod 755 /usr/bin/pull && chmod 755 /usr/bin/push
 RUN chmod 755 /start.sh
 RUN chmod 755 /lets-encrypt.sh
+# add a renew script - letsencrypt only valid for 90 days
 
 # copy in code
 ADD src/ /var/www/html/
