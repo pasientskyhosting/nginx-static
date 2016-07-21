@@ -35,13 +35,13 @@ RUN ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/defau
 
 # Add Scripts
 ADD scripts/start.sh /start.sh
-ADD scripts/lets-encrypt.sh /lets-encrypt.sh
+ADD scripts/lets-encrypt.sh /letsencrypt-setup.sh
 ADD scripts/pull /usr/bin/pull
 ADD scripts/push /usr/bin/push
-RUN chmod 755 /usr/bin/pull && chmod 755 /usr/bin/push
+ADD scripts/renew /usr/bin/renew
+RUN chmod 755 /usr/bin/pull && chmod 755 /usr/bin/push && chmod 755 /usr/bin/renew
 RUN chmod 755 /start.sh
-RUN chmod 755 /lets-encrypt.sh
-# add a renew script - letsencrypt only valid for 90 days
+RUN chmod 755 /letsencrypt-setup.sh
 
 # copy in code
 ADD src/ /var/www/html/
