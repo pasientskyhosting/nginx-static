@@ -35,10 +35,12 @@ RUN ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/defau
 
 # Add Scripts
 ADD scripts/start.sh /start.sh
+ADD scripts/lets-encrypt.sh /lets-encrypt.sh
 ADD scripts/pull /usr/bin/pull
 ADD scripts/push /usr/bin/push
 RUN chmod 755 /usr/bin/pull && chmod 755 /usr/bin/push
 RUN chmod 755 /start.sh
+RUN chmod 755 /lets-encrypt.sh
 
 # copy in code
 ADD src/ /var/www/html/
