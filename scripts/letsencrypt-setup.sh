@@ -1,4 +1,8 @@
 #!/bin/bash
 
 # Lets Encrypt
-/opt/letsencrypt/letsencrypt-auto certonly -a webroot --webroot-path=$WEBROOT -d example.com -d www.example.com
+if [ -z "$WEBROOT" ] || [ -z "$GIT_EMAIL" ] || [ -z "$DOMAIN" ]; then
+ echo "You need the \$WEBROOT, \$GIT_EMAIL and the \$DOMAIN Variables"
+else
+ /opt/letsencrypt/letsencrypt-auto certonly -a webroot --webroot-path=$WEBROOT --email $GIT_EMAIL -d $DOMAIN 
+fi

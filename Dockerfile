@@ -10,13 +10,27 @@ RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories 
     supervisor \
     curl \
     bc \
+    gcc \
+    musl-dev \
+    linux-headers \
+    python \
+    python-dev \
+    py-pip \
+    augeas-dev \
+    openssl-dev \
+    libffi-dev \
+    ca-certificates \
+    dialog \
     git && \
     mkdir -p /etc/nginx && \
     mkdir -p /var/www/app && \
     mkdir -p /run/nginx && \
     mkdir -p /var/log/supervisor
 
-RUN git clone https://github.com/letsencrypt/letsencrypt /opt/letsencrypt
+RUN pip install -U letsencrypt && \
+    mkdir -p /etc/letsencrypt/webrootauth
+
+#RUN git clone https://github.com/letsencrypt/letsencrypt /opt/letsencrypt
 
 ADD conf/supervisord.conf /etc/supervisord.conf
 
