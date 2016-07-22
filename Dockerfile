@@ -35,7 +35,7 @@ RUN ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/defau
 
 # Add Scripts
 ADD scripts/start.sh /start.sh
-ADD scripts/lets-encrypt.sh /letsencrypt-setup.sh
+ADD scripts/letsencrypt-setup.sh /letsencrypt-setup.sh
 ADD scripts/pull /usr/bin/pull
 ADD scripts/push /usr/bin/push
 ADD scripts/renew /usr/bin/renew

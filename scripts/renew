@@ -9,7 +9,3 @@ if [ -z "$GIT_NAME" ]; then
  echo "You need to pass the \$GIT_NAME variable to the container for this to work"
  exit
 fi
-
-cd /var/www/html
-git pull
-chown -Rf nginx:nginx /var/www/html
