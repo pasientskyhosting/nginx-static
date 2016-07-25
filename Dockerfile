@@ -9,6 +9,7 @@ RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories 
     nginx \
     supervisor \
     curl \
+    nodejs-lts \
     bc \
     gcc \
     musl-dev \
