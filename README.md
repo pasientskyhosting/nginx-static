@@ -1,5 +1,5 @@
 ## Introduction
-This is a Dockerfile to build a container image for nginx only, with the ability to pull website code from git. The container also has the ability to update templated files with vaiables passed to docker in order to update your settings.
+This is a Dockerfile to build a container image for nginx only, with the ability to pull website code from git.
 
 This is for hosting static pages only and can be used as a template to build other nginx dockerfiles.
 
@@ -8,7 +8,8 @@ The source files for this project can be found here: [https://github.com/ngineer
 
 If you have any improvements please submit a pull request.
 ### Docker hub repository
-The Docker hub build can be found here: [https://registry.hub.docker.com/u/ngineered/nginx-static/](https://registry.hub.docker.com/u/ngineered/nginx-static/)
+
+
 ## Versions
 | Tag | Nginx | Alpine |
 |-----|-------|-----|--------|
@@ -23,10 +24,7 @@ docker build -t nginx-static:latest .
 ```
 
 ## Pulling from Docker Hub
-Pull the image from docker hub rather than downloading the git repo. This prevents you having to build the image on every docker host:
-```
-docker pull ngineered/nginx-static:latest
-```
+
 
 ## Running
 To simply run the container:
@@ -81,45 +79,14 @@ In order to refresh the code in a container and pull newer code form git simply 
 sudo docker exec -t -i <CONTAINER_NAME> /usr/bin/pull
 ```
 
-### Templating
-**NOTE: You now need to enable templates see below**
-This container will automatically configure your web application if you template your code.
-
 ### Using environment variables
-For example if you are using a MySQL server, and you have a config.php file where you need to set the MySQL details include $$_MYSQL_HOST_$$ style template tags.
-
-Example config.php::
-```
-<?php
-database_host = $$_MYSQL_HOST_$$;
-database_user = $$_MYSQL_USER_$$;
-database_pass = $$_MYSQL_PASS_$$
-...
-?>
-```
 
 To set the variables simply pass them in as environmental variables on the docker command line.
 
 Example:
 ```
-sudo docker run -d -e 'GIT_REPO=git@git.ngd.io:ngineered/ngineered-website.git' -e 'SSH_KEY=base64_key' -e 'TEMPLATE_NGINX_HTML=1' -e 'GIT_BRANCH=stage' -e 'MYSQL_HOST=host.x.y.z' -e 'MYSQL_USER=username' -e 'MYSQL_PASS=supper_secure_password' ngineered/nginx-static
+sudo docker run -d -e 'GIT_REPO=git@git.ngd.io:ngineered/ngineered-website.git' -e 'SSH_KEY=base64_key' -e 'TEMPLATE_NGINX_HTML=1' -e 'GIT_BRANCH=stage' ngineered/nginx-static
 ```
-
-This will expose the following variables that can be used to template your code.
-```
-MYSQL_HOST=host.x.y.z
-MYSQL_USER=username
-MYSQL_PASS=password
-```
-
-### Enable Templating
-In order to speed up boot time templating is now disabled by default, if you wish to enable it simply include the flag below:
-```
--e TEMPLATE_NGINX_HTML=1
-```
-
-### Template anything
-Yes ***ANYTHING***, any variable exposed by the **-e** flag lets you template your configuration files. This means you can add redis, mariaDB, memcache or anything you want to your application very easily.
 
 ## Logging and Errors
 
