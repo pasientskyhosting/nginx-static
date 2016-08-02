@@ -98,8 +98,6 @@ docker logs <CONTAINER_NAME>
 ### WebRoot
 You can set your webroot in the container to anything you want using the -e "WEBROOT=/var/www/html/public" variable.
 
-### Displaying Errors
-If you want to display PHP errors on screen (in the browser) for debugging purposes use this feature:
-```
--e ERRORS=1
-```
+## SECTIONS TO add
+
+- lets encrypt (look at nginx-nodejs)
