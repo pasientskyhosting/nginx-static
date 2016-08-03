@@ -64,6 +64,19 @@ sudo docker run -d -e 'GIT_REPO=git@git.ngd.io:ngineered/ngineered-website.git' 
 ### Enabling SSL or Special Nginx Configs
 You can either map a local folder containing your configs  to /etc/nginx or we recommend editing the files within __conf__ directory that are in the git repo, and then rebuilding the base image.
 
+### Lets Encrypt support (Experimental)
+#### Setup
+You can use Lets Encrypt to secure your container. Make sure you start the container ```DOMAIN, GIT_EMAIL``` and ```WEBROOT``` variables to enable this to work. Then run:
+```
+sudo docker exec -t <CONTAINER_NAME> /usr/bin/letsencrypt-setup
+```
+Ensure your container is accessible on the ```DOMAIN``` you supply in order for this to work
+#### Renewal
+Lets Encrypt certs expire every 90 days, to renew simply run:
+```
+sudo docker exec -t <CONTAINER_NAME> /usr/bin/letsencrypt-renew
+``
+
 ## Special Git Features
 You'll need some extra ENV vars to enable this feature. These are ```GIT_EMAIL``` and ```GIT_NAME```. This allows git to be set up correctly and allow the following commands to work.
 
