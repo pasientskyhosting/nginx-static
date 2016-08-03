@@ -88,9 +88,9 @@ sudo docker exec -t -i <CONTAINER_NAME> /usr/bin/push
 
 ### Pull code from Git (Refresh)
 In order to refresh the code in a container and pull newer code form git simply run:
-```
+
 sudo docker exec -t -i <CONTAINER_NAME> /usr/bin/pull
-```
+
 
 ### Using environment variables
 
