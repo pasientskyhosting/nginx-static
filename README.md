@@ -75,7 +75,7 @@ Ensure your container is accessible on the ```DOMAIN``` you supply in order for 
 Lets Encrypt certs expire every 90 days, to renew simply run:
 ```
 sudo docker exec -t <CONTAINER_NAME> /usr/bin/letsencrypt-renew
-``
+```
 
 ## Special Git Features
 You'll need some extra ENV vars to enable this feature. These are ```GIT_EMAIL``` and ```GIT_NAME```. This allows git to be set up correctly and allow the following commands to work.
@@ -88,9 +88,9 @@ sudo docker exec -t -i <CONTAINER_NAME> /usr/bin/push
 
 ### Pull code from Git (Refresh)
 In order to refresh the code in a container and pull newer code form git simply run:
-
+```
 sudo docker exec -t -i <CONTAINER_NAME> /usr/bin/pull
-
+```
 
 ### Using environment variables
 
