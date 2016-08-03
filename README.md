@@ -33,11 +33,19 @@ sudo docker run -d ngineered/nginx-static
 ```
 
 You can then browse to ```http://<DOCKER_HOST>:8080``` to view the default install files. To find your ```DOCKER_HOST``` use the ```docker inspect``` to get the IP address.
-### Volumes
-If you want to link to your web site directory on the docker host to the container run:
-```
-sudo docker run -d -v /your_code_directory:/var/www/html ngineered/nginx-static
-```
+
+### Available Configuration Parameters
+The following flags are a list of all the currently supported options that can be changed by passing in the variables to docker with the -e flag.
+
+ - **GIT_REPO** : URL to the repository containing your source code
+ - **GIT_BRANCH** : Select a specific branch (optional)
+ - **GIT_EMAIL** : Set your email for code pushing (required for git to work)
+ - **GIT_NAME** : Set your name for code pushing (required for git to work)
+ - **SSH_KEY** : Private SSH deploy key for your repository base64 encoded (requires write permissions for pushing)
+ - **WEBROOT** : Change the default webroot directory from `/var/www/html` to your own setting
+ - **HIDE_NGINX_HEADERS** : Disable by setting to 0, default behavior is to hide nginx version in headers
+ - **DOMAIN** : Set domain name for Lets Encrypt scripts
+
 
 ### Dynamically Pulling code from git
 One of the nice features of this container is its ability to pull code from a git repository with a couple of environmental variables passed at run time.
