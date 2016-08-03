@@ -110,7 +110,3 @@ docker logs <CONTAINER_NAME>
 ```
 ### WebRoot
 You can set your webroot in the container to anything you want using the -e "WEBROOT=/var/www/html/public" variable.
-
-## SECTIONS TO add
-
-- lets encrypt (look at nginx-nodejs)
