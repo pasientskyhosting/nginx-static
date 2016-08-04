@@ -42,7 +42,8 @@ The following flags are a list of all the currently supported options that can b
  - **GIT_EMAIL** : Set your email for code pushing (required for git to work)
  - **GIT_NAME** : Set your name for code pushing (required for git to work)
  - **SSH_KEY** : Private SSH deploy key for your repository base64 encoded (requires write permissions for pushing)
- - **PERSONAL_TOKEN** : Personal access token for your git account
+ - **PERSONAL_TOKEN** : Personal access token for your git account (required for HTTPS git access)
+ - **GIT_USERNAME** : Git username for use with personal tokens. (required for HTTPS git access)
  - **WEBROOT** : Change the default webroot directory from `/var/www/html` to your own setting
  - **HIDE_NGINX_HEADERS** : Disable by setting to 0, default behavior is to hide nginx version in headers
  - **DOMAIN** : Set domain name for Lets Encrypt scripts
@@ -72,9 +73,9 @@ sudo docker run -d -e 'GIT_REPO=git@git.ngd.io:ngineered/ngineered-website.git' 
 
 ### Personal Access token
 
-If your not passing the container your SSH key you can pass it the personal access token from your git account using the __PERSONAL_TOKEN__ flag. This token must be setup with the correct permissions in git in order to push and pull code.
+If your not passing the container your SSH key you can pass it your personal access token from your git account using the __PERSONAL_TOKEN__ flag. This token must be setup with the correct permissions in git in order to push and pull code.
 
-Since the access token acts as a password the git push/pull uses HTTPS to authenticate. We will need to specify the GIT_EMAIL and PERSONAL_TOKEN variables.
+Since the access token acts as a password with limited scope, the git push/pull uses HTTPS to authenticate. You will need to specify your __GIT_USERNAME__ and __PERSONAL_TOKEN__ variables.
 
 ```
 sudo docker run -d -e 'GIT_REPO=git@git.ngd.io:ngineered/ngineered-website.git' -e 'PERSONAL_TOKEN=BIG_LONG_STRING_GOES_HERE' ngineered/nginx-static
