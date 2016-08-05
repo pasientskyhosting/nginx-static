@@ -63,7 +63,7 @@ You can pass the container your personal access token from your git account usin
 Since the access token acts as a password with limited access, the git push/pull uses HTTPS to authenticate. You will need to specify your __GIT_USERNAME__ and __GIT_PERSONAL_TOKEN__ variables to push and pull.
 
 ```
-docker run -d -e 'GIT_EMAIL=<email_address>' -e 'GIT_NAME=<full_name>' -e 'GIT_USERNAME=<git_username>' -e 'GIT_REPO=<github.com/project>' -e 'GIT_PERSONAL_TOKEN=<long_token_string_here>' nginx-static
+docker run -d -e 'GIT_EMAIL=email_address' -e 'GIT_NAME=full_name' -e 'GIT_USERNAME=git_username' -e 'GIT_REPO=github.com/project' -e 'GIT_PERSONAL_TOKEN=<long_token_string_here>' nginx-static
 ```
 
 To pull a repository and specify a branch add the __GIT_BRANCH__ environment variable:
