@@ -38,7 +38,7 @@ if [ ! -d "/var/www/html/.git" ]; then
        git clone -b ${GIT_BRANCH} https://${GIT_USERNAME}:${GIT_PERSONAL_TOKEN}@${GIT_REPO}
      fi
    else
-     if [ ! -z "$GIT_USERNAME" ] && [ ! -z "$GIT_PERSONAL_TOKEN" ]: then
+     if [ ! -z "$GIT_USERNAME" ] && [ ! -z "$GIT_PERSONAL_TOKEN" ]; then
        git clone $GIT_REPO /var/www/html/
      else
        git clone https://${GIT_USERNAME}:${GIT_PERSONAL_TOKEN}@${GIT_REPO}
