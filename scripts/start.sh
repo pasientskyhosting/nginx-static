@@ -32,9 +32,17 @@ if [ ! -d "/var/www/html/.git" ]; then
    # Remove the test index file
    rm -Rf /var/www/html/index.html
    if [ ! -z "$GIT_BRANCH" ]; then
-     git clone -b $GIT_BRANCH $GIT_REPO /var/www/html/
+     if [ ! -z "$GIT_USERNAME" ] && [ ! -z "$GIT_PERSONALTOKEN" ]
+       git clone -b $GIT_BRANCH $GIT_REPO /var/www/html/
+     else
+       git clone -b ${GIT_BRANCH} https://${GIT_USERNAME}:${GIT_PERSONALTOKEN}@${GIT_REPO}
+     fi
    else
-     git clone $GIT_REPO /var/www/html/
+     if [ ! -z "$GIT_USERNAME" ] && [ ! -z "$GIT_PERSONALTOKEN" ]
+       git clone $GIT_REPO /var/www/html/
+     else
+       git clone https://${GIT_USERNAME}:${GIT_PERSONALTOKEN}@${GIT_REPO}
+     fi
    fi
    chown -Rf nginx.nginx /var/www/html
  fi
@@ -43,19 +51,6 @@ fi
 # Display Version Details or not
 if [[ "$HIDE_NGINX_HEADERS" == "0" ]] ; then
  sed -i "s/server_tokens off;/server_tokens on;/g" /etc/nginx/nginx.conf
-fi
-
-# Very dirty hack to replace variables in code with ENVIRONMENT values
-if [[ "$TEMPLATE_NGINX_HTML" == "1" ]] ; then
-  for i in $(env)
-  do
-    variable=$(echo "$i" | cut -d'=' -f1)
-    value=$(echo "$i" | cut -d'=' -f2)
-    if [[ "$variable" != '%s' ]] ; then
-      replace='\$\$_'${variable}'_\$\$'
-      find /var/www/html -type f -exec sed -i -e 's/'${replace}'/'${value}'/g' {} \;
-    fi
-  done
 fi
 
 # Start supervisord and services
