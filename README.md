@@ -29,7 +29,7 @@ docker build -t nginx-static:latest .
 ## Running
 To simply run the container:
 ```
-sudo docker run -d ngineered/nginx-static
+sudo docker run -d richarvey/nginx-static
 ```
 
 You can then browse to ```http://<DOCKER_HOST>:8080``` to view the default install files. To find your ```DOCKER_HOST``` use the ```docker inspect``` to get the IP address.
@@ -52,40 +52,43 @@ The following flags are a list of all the currently supported options that can b
 ### Dynamically Pulling code from git
 One of the nice features of this container is its ability to pull code from a git repository with a couple of environmental variables passed at run time.
 
-Previously you needed to have your SSH key that you use with git to enable the deployment. It's still recommended to use a special deploy key per project to minimise the risk.
+There are two methods of pulling code from git, you can either use a Personal Token (recommended method) or an SSH key.
 
-**Note:** I would recommed using a git personal token over an SSH key as it simplifies the set up process. To create a personal access token on Github follow this [guide](https://help.github.com/articles/creating-an-access-token-for-command-line-use/).
+**Note:** We would recommed using a git personal token over an SSH key as it simplifies the set up process. To create a personal access token on Github follow this [guide](https://help.github.com/articles/creating-an-access-token-for-command-line-use/).
 
-### Personal Access token
+#### Personal Access token
 
 You can pass the container your personal access token from your git account using the __GIT_PERSONAL_TOKEN__ flag. This token must be setup with the correct permissions in git in order to push and pull code.
 
-Since the access token acts as a password with limited access, the git push/pull uses HTTPS to authenticate. You will need to specify your __GIT_USERNAME__ and __GIT_PERSONAL_TOKEN__ variables to push and pull.
+Since the access token acts as a password with limited access, the git push/pull uses HTTPS to authenticate. You will need to specify your __GIT_USERNAME__ and __GIT_PERSONAL_TOKEN__ variables to push and pull. You'll need to also have the __GIT_EMAIL__, __GIT_NAME__ and __GIT_REPO__ common variables defined.
 
 ```
-docker run -d -e 'GIT_EMAIL=email_address' -e 'GIT_NAME=full_name' -e 'GIT_USERNAME=git_username' -e 'GIT_REPO=github.com/project' -e 'GIT_PERSONAL_TOKEN=<long_token_string_here>' nginx-static
+docker run -d -e 'GIT_EMAIL=email_address' -e 'GIT_NAME=full_name' -e 'GIT_USERNAME=git_username' -e 'GIT_REPO=github.com/project' -e 'GIT_PERSONAL_TOKEN=<long_token_string_here>' richarvey/nginx-static:latest
 ```
 
 To pull a repository and specify a branch add the __GIT_BRANCH__ environment variable:
 ```
-docker run -d -e 'GIT_EMAIL=email_address' -e 'GIT_NAME=full_name' -e 'GIT_USERNAME=git_username' -e 'GIT_REPO=github.com/project' -e 'GIT_PERSONAL_TOKEN=<long_token_string_here>' -e 'GIT_BRANCH=stage' nginx-static
+docker run -d -e 'GIT_EMAIL=email_address' -e 'GIT_NAME=full_name' -e 'GIT_USERNAME=git_username' -e 'GIT_REPO=github.com/project' -e 'GIT_PERSONAL_TOKEN=<long_token_string_here>' -e 'GIT_BRANCH=stage' richarvey/nginx-static:latest
 ```
+#### SSH keys
 
-### Preparing your SSH key
+##### Preparing your SSH key
 The container has the option for you to pass it the __SSH_KEY__ variable with a **base64** encoded private key. First generate your key and then make sure to add it to github and give it write permissions if you want to be able to push code back out the container. Then run:
 ```
 base64 -w 0 /path_to_your_key
 ```
 **Note:** Copy the output be careful not to copy your prompt
 
+##### Running with SSH Keys
+
 To run the container and pull code simply specify the GIT_REPO URL including *git@* and then make sure you have also supplied your base64 version of your ssh deploy key:
 ```
-sudo docker run -d -e 'GIT_REPO=git@git.ngd.io:ngineered/ngineered-website.git' -e 'SSH_KEY=BIG_LONG_BASE64_STRING_GOES_IN_HERE' ngineered/nginx-static
+sudo docker run -d -e 'GIT_NAME=full_name' -e 'GIT_USERNAME=git_username' -e 'GIT_REPO=github.com/project' -e 'SSH_KEY=BIG_LONG_BASE64_STRING_GOES_IN_HERE' richarvey/nginx-static:latest
 ```
 
 To pull a repository and specify a branch add the GIT_BRANCH environment variable:
 ```
-sudo docker run -d -e 'GIT_REPO=git@git.ngd.io:ngineered/ngineered-website.git' -e 'GIT_BRANCH=stage' -e 'SSH_KEY=BIG_LONG_BASE64_STRING_GOES_IN_HERE' ngineered/nginx-static
+sudo docker run -d -e 'GIT_NAME=full_name' -e 'GIT_USERNAME=git_username' -e 'GIT_REPO=github.com/project' -e 'SSH_KEY=BIG_LONG_BASE64_STRING_GOES_IN_HERE' -e 'GIT_BRANCH=stage' richarvey/nginx-static:latest
 ```
 
 ### Enabling SSL or Special Nginx Configs
@@ -125,7 +128,7 @@ To set the variables simply pass them in as environmental variables on the docke
 
 Example:
 ```
-sudo docker run -d -e 'GIT_REPO=git@git.ngd.io:ngineered/ngineered-website.git' -e 'SSH_KEY=base64_key' -e 'TEMPLATE_NGINX_HTML=1' -e 'GIT_BRANCH=stage' ngineered/nginx-static
+sudo docker run -d -e 'YOUR_VAR=VALUE' richarvey/nginx-static
 ```
 
 ## Logging and Errors
@@ -136,4 +139,4 @@ All logs should now print out in stdout/stderr and are available via the docker 
 docker logs <CONTAINER_NAME>
 ```
 ### WebRoot
-You can set your webroot in the container to anything you want using the -e "WEBROOT=/var/www/html/public" variable.
+You can set your webroot in the container to anything you want using the -e "WEBROOT=/var/www/html/public" variable. By default code is checked out into /var/www/html/ so if your git repository does not have code int he root you'llneed to use this variable.
