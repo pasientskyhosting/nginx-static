@@ -32,13 +32,13 @@ if [ ! -d "/var/www/html/.git" ]; then
    # Remove the test index file
    rm -Rf /var/www/html/index.html
    if [ ! -z "$GIT_BRANCH" ]; then
-     if [ ! -z "$GIT_USERNAME" ] && [ ! -z "$GIT_PERSONAL_TOKEN" ]; then
+     if [ -z "$GIT_USERNAME" ] && [ -z "$GIT_PERSONAL_TOKEN" ]; then
        git clone -b $GIT_BRANCH $GIT_REPO /var/www/html/
      else
-       git clone -b ${GIT_BRANCH} https://${GIT_USERNAME}:${GIT_PERSONAL_TOKEN}@${GIT_REPO} /var/ww/html
+       git clone -b ${GIT_BRANCH} https://${GIT_USERNAME}:${GIT_PERSONAL_TOKEN}@${GIT_REPO} /var/www/html
      fi
    else
-     if [ ! -z "$GIT_USERNAME" ] && [ ! -z "$GIT_PERSONAL_TOKEN" ]; then
+     if [ -z "$GIT_USERNAME" ] && [ -z "$GIT_PERSONAL_TOKEN" ]; then
        git clone $GIT_REPO /var/www/html/
      else
        git clone https://${GIT_USERNAME}:${GIT_PERSONAL_TOKEN}@${GIT_REPO} /var/www/html
