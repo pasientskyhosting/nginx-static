@@ -24,7 +24,9 @@ docker build -t nginx-static:latest .
 ```
 
 ## Pulling from Docker Hub
-
+```
+docker pull richarvey/nginx-static
+```
 
 ## Running
 To simply run the container:
@@ -47,14 +49,15 @@ The following flags are a list of all the currently supported options that can b
  - **WEBROOT** : Change the default webroot directory from `/var/www/html` to your own setting
  - **HIDE_NGINX_HEADERS** : Disable by setting to 0, default behavior is to hide nginx version in headers
  - **DOMAIN** : Set domain name for Lets Encrypt scripts
+ - **RUN_SCRIPTS** : Set to 1 to execute scripts
 
 
 ### Dynamically Pulling code from git
-One of the nice features of this container is its ability to pull code from a git repository with a couple of environmental variables passed at run time.
+One of the nice features of this container is its ability to pull code from a git repository with a couple of environmental variables passed at run time. Please take a look at our recommended [repo layout guidelines](docs/repo_layout.md).
 
 There are two methods of pulling code from git, you can either use a Personal Token (recommended method) or an SSH key.
 
-**Note:** We would recommed using a git personal token over an SSH key as it simplifies the set up process. To create a personal access token on Github follow this [guide](https://help.github.com/articles/creating-an-access-token-for-command-line-use/).
+**Note:** We would recommend using a git personal token over an SSH key as it simplifies the set up process. To create a personal access token on Github follow this [guide](https://help.github.com/articles/creating-an-access-token-for-command-line-use/).
 
 #### Personal Access token
 
@@ -91,10 +94,12 @@ To pull a repository and specify a branch add the GIT_BRANCH environment variabl
 sudo docker run -d -e 'GIT_NAME=full_name' -e 'GIT_USERNAME=git_username' -e 'GIT_REPO=github.com/project' -e 'SSH_KEY=BIG_LONG_BASE64_STRING_GOES_IN_HERE' -e 'GIT_BRANCH=stage' richarvey/nginx-static:latest
 ```
 
-### Enabling SSL or Special Nginx Configs
-You can either map a local folder containing your configs  to /etc/nginx or we recommend editing the files within __conf__ directory that are in the git repo, and then rebuilding the base image.
+### Scripting
+Theres always an occasion where you need to run a script on code to do a transformation once code lands in the container. For this reason we have developed scripting support. By including a scripts folder in your git repository and passing the __RUN_SCRIPTS=1__ flag to your command line the container will execute your scripts. Please see the [repo layout guidelines](docs/repo_layout.md) for more details on how to organise this.
 
 ### Lets Encrypt support (Experimental)
+#### Enabling SSL or Special Nginx Configs
+You can either map a local folder containing your configs  to /etc/nginx or we recommend editing the files within __conf__ directory that are in the git repo, and then rebuilding the base image.
 #### Setup
 You can use Lets Encrypt to secure your container. Make sure you start the container ```DOMAIN, GIT_EMAIL``` and ```WEBROOT``` variables to enable this to work. Then run:
 ```
