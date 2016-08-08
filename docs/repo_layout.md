@@ -10,7 +10,7 @@ Its important to note code will always be checked out to ```/var/www/html/``` th
  - more code here
 ```
 
-However if you wish to use scripting support you'll want to split code and scripts up. To ensure your scripts are in the public part of your site.
+However if you wish to use scripting support you'll want to split code and scripts up. To ensure your scripts are not in the public part of your site.
 
 ```
  - repo root (/var/www/html)
