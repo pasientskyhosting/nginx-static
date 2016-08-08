@@ -76,11 +76,11 @@ docker run -d -e 'GIT_EMAIL=email_address' -e 'GIT_NAME=full_name' -e 'GIT_USERN
 #### SSH keys
 
 ##### Preparing your SSH key
-The container has the option for you to pass it the __SSH_KEY__ variable with a **base64** encoded private key. First generate your key and then make sure to add it to github and give it write permissions if you want to be able to push code back out the container. Then run:
+The container has the option for you to pass it the __SSH_KEY__ variable with a **base64** encoded private key. First generate your key and then make sure to add it to github and give it write permissions if you want to be able to push code from the container. Then run:
 ```
 base64 -w 0 /path_to_your_key
 ```
-**Note:** Copy the output be careful not to copy your prompt
+**Note:** Copy the output, but be careful not to copy your prompt
 
 ##### Running with SSH Keys
 
@@ -95,17 +95,17 @@ sudo docker run -d -e 'GIT_NAME=full_name' -e 'GIT_USERNAME=git_username' -e 'GI
 ```
 
 ### Scripting
-Theres always an occasion where you need to run a script on code to do a transformation once code lands in the container. For this reason we have developed scripting support. By including a scripts folder in your git repository and passing the __RUN_SCRIPTS=1__ flag to your command line the container will execute your scripts. Please see the [repo layout guidelines](docs/repo_layout.md) for more details on how to organise this.
+There is often an occasion where you need to run a script on code to do a transformation once code lands in the container. For this reason we have developed scripting support. By including a scripts folder in your git repository and passing the __RUN_SCRIPTS=1__ flag to your command line the container will execute your scripts. Please see the [repo layout guidelines](docs/repo_layout.md) for more details on how to organise this.
 
 ### Lets Encrypt support (Experimental)
 #### Enabling SSL or Special Nginx Configs
-You can either map a local folder containing your configs  to /etc/nginx or we recommend editing the files within __conf__ directory that are in the git repo, and then rebuilding the base image.
+You can either map a local folder containing your configs to /etc/nginx or (recommended method) edit the files within the  __conf__ directory in a copy of this git repo, and then rebuilding the base image.
 #### Setup
-You can use Lets Encrypt to secure your container. Make sure you start the container ```DOMAIN, GIT_EMAIL``` and ```WEBROOT``` variables to enable this to work. Then run:
+You can use Lets Encrypt to secure your container. Make sure you start the container with the ```DOMAIN, GIT_EMAIL``` and ```WEBROOT``` variables set to enable this functionality. Then run:
 ```
 sudo docker exec -t <CONTAINER_NAME> /usr/bin/letsencrypt-setup
 ```
-Ensure your container is accessible on the ```DOMAIN``` you supply in order for this to work
+Ensure your container is accessible on the ```DOMAIN``` you supplied in order for this to work
 #### Renewal
 Lets Encrypt certs expire every 90 days, to renew simply run:
 ```
@@ -113,23 +113,23 @@ sudo docker exec -t <CONTAINER_NAME> /usr/bin/letsencrypt-renew
 ```
 
 ## Special Git Features
-You'll need some extra ENV vars to enable this feature. These are ```GIT_EMAIL``` and ```GIT_NAME```. This allows git to be set up correctly and allow the following commands to work.
+Specify the ```GIT_EMAIL``` and ```GIT_NAME``` variables for this to work. They are used to set up git correctly and allow the following commands to work.
 
 ### Push code to Git
-To push code changes made within the container back to git simply run:
+To push code changes made within the container back to git run:
 ```
 sudo docker exec -t -i <CONTAINER_NAME> /usr/bin/push
 ```
 
 ### Pull code from Git (Refresh)
-In order to refresh the code in a container and pull newer code form git simply run:
+In order to refresh the code in a container and pull newer code from git run:
 ```
 sudo docker exec -t -i <CONTAINER_NAME> /usr/bin/pull
 ```
 
 ### Using environment variables
 
-To set the variables simply pass them in as environmental variables on the docker command line.
+To set the variables pass them in as environment variables on the docker command line.
 
 Example:
 ```
@@ -144,4 +144,4 @@ All logs should now print out in stdout/stderr and are available via the docker 
 docker logs <CONTAINER_NAME>
 ```
 ### WebRoot
-You can set your webroot in the container to anything you want using the -e "WEBROOT=/var/www/html/public" variable. By default code is checked out into /var/www/html/ so if your git repository does not have code int he root you'llneed to use this variable.
+You can set your webroot in the container to anything you want using the ```WEBROOT``` variable e.g -e "WEBROOT=/var/www/html/public". By default code is checked out into /var/www/html/ so if your git repository does not have code in the root you'll need to use this variable.
