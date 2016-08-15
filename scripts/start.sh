@@ -48,6 +48,15 @@ if [ ! -d "/var/www/html/.git" ]; then
  fi
 fi
 
+# Enable custom nginx config files if they exist
+if [ -f /var/www/html/conf/nginx/nginx-site.conf ]; then
+  cp /var/www/html/conf/nginx/nginx-site.conf /etc/nginx/sites-available/default.conf
+fi
+
+if [ -f /var/www/html/conf/nginx/nginx-site-ssl.conf ]; then
+  cp /var/www/html/conf/nginx/nginx-site-ssl.conf /etc/nginx/sites-available/default-ssl.conf
+fi
+
 # Display Version Details or not
 if [[ "$HIDE_NGINX_HEADERS" == "0" ]] ; then
  sed -i "s/server_tokens off;/server_tokens on;/g" /etc/nginx/nginx.conf
