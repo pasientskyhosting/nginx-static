@@ -1,15 +1,14 @@
-FROM alpine:3.4
+FROM alpine:3.5
 
 MAINTAINER Andreas Krüger <ak@patientsky.com>
 
-RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories && apk update && \
+RUN apk update && \
     apk add --no-cache bash \
     openssh-client \
     nginx \
     supervisor \
     git && \
     mkdir -p /etc/nginx && \
-    mkdir -p /var/www/app && \
     mkdir -p /run/nginx && \
     mkdir -p /var/log/supervisor
 
