@@ -31,8 +31,8 @@ ADD scripts/start.sh /start.sh
 RUN chmod 755 /start.sh
 
 # copy in code
+#ADD src/ /var/www/html/
 ADD errors /var/www/errors/
-ADD src/ /var/www/html/
 
 EXPOSE 80
 
