@@ -58,6 +58,14 @@ if [ ! -d "/var/www/html/.git" ]; then
  fi
 fi
 
+if [ -d "/adaptions" ]; then
+    # make scripts executable incase they aren't
+    chmod -Rf 750 /adaptions/*
+
+    # run scripts in number order
+    for i in `ls /adaptions/`; do /adaptions/$i ; done
+fi
+
 # Always chown webroot for better mounting
 chown -Rf nginx.nginx /var/www/html
 
