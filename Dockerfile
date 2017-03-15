@@ -1,10 +1,12 @@
 FROM nginx:1.11.10-alpine
 MAINTAINER Andreas Krüger <ak@patientsky.com>
 
-RUN apk update && \
-    apk add --no-cache bash \
+RUN apk add --no-cache bash \
     openssh-client \
     supervisor \
+    php5-cli \
+    php5-curl \
+    curl \
     git && \
 #    mkdir -p /etc/nginx && \
 #    mkdir -p /run/nginx && \
