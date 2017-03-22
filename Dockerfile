@@ -6,10 +6,10 @@ RUN apk add --no-cache bash \
     supervisor \
     php5-cli \
     php5-curl \
+    php5-json \
     curl \
     git && \
-#    mkdir -p /etc/nginx && \
-#    mkdir -p /run/nginx && \
+    rm -rf /var/cache/apk/* && \
     mkdir -p /var/log/supervisor
 
 ADD conf/supervisord.conf /etc/supervisord.conf
