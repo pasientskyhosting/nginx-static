@@ -63,7 +63,7 @@ if [ -d "/adaptions" ]; then
     chmod -Rf 750 /adaptions/*
 
     # run scripts in number order
-    for i in `ls /adaptions/`; do /adaptions/$i ; done
+    for i in `ls /adaptions/`; do /adaptions/$i || exit 1; done
 fi
 
 # Always chown webroot for better mounting
