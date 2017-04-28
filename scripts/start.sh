@@ -54,7 +54,7 @@ if [ ! -d "/var/www/html/.git" ]; then
        git clone https://${GIT_USERNAME}:${GIT_PERSONAL_TOKEN}@${GIT_REPO} /var/www/html || exit 1
      fi
    fi
-   chown -Rf nginx.nginx /var/www/html
+   #chown -Rf nginx.nginx /var/www/html
  fi
 fi
 
@@ -67,7 +67,7 @@ if [ -d "/adaptions" ]; then
 fi
 
 # Always chown webroot for better mounting
-chown -Rf nginx.nginx /var/www/html
+#chown -Rf nginx.nginx /var/www/html
 
 # Start supervisord and services
 /usr/bin/supervisord -n -c /etc/supervisord.conf
