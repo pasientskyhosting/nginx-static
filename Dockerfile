@@ -7,6 +7,7 @@ RUN apk add --no-cache bash \
     php5-cli \
     php5-curl \
     php5-json \
+    tzdata \
     curl \
     git && \
     rm -rf /var/cache/apk/* && \
