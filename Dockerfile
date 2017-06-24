@@ -22,7 +22,8 @@ ADD conf/nginx.conf /etc/nginx/nginx.conf
 # nginx site conf
 RUN mkdir -p /etc/nginx/sites-available/ && \
     mkdir -p /etc/nginx/sites-enabled/ && \
-    mkdir -p /var/www/html/
+    mkdir -p /var/www/html/ && \
+    touch /etc/nginx/csp.inc.conf
 
 ADD conf/nginx-site.conf /etc/nginx/sites-available/default.conf
 
