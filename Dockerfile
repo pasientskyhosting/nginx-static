@@ -1,4 +1,4 @@
-FROM nginx:1.15-alpine
+FROM nginx:1.17-alpine
 MAINTAINER Andreas Krüger <ak@patientsky.com>
 
 RUN apk add --no-cache bash \
