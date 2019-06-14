@@ -1,7 +1,8 @@
 FROM nginx:1.17-alpine
-MAINTAINER Andreas Krüger <ak@patientsky.com>
 
-RUN apk add --no-cache bash \
+RUN apk update && \
+    apk upgrade && \
+    apk add --no-cache bash \
     openssh-client \
     supervisor \
     php7-cli \
