@@ -1,17 +1,18 @@
-FROM nginx:1.17-alpine
+FROM nginx:1.17
 
-RUN apk update && \
-    apk upgrade && \
-    apk add --no-cache bash \
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y -q --install-recommends --no-install-suggests \
+    bash \
     openssh-client \
     supervisor \
-    php7-cli \
-    php7-curl \
-    php7-json \
+    php7.3-cli \
+    php7.3-curl \
+    php7.3-json \
     tzdata \
     curl \
     git && \
-    rm -rf /var/cache/apk/* && \
+    rm -rf /var/lib/apt/lists/* && \
     mkdir -p /var/log/supervisor
 
 ADD conf/supervisord.conf /etc/supervisord.conf
