@@ -1,17 +1,20 @@
 FROM nginx:1.17
 
+LABEL maintainer "Andreas Krüger <ak@patientsky.com>"
+
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y -q --install-recommends --no-install-suggests \
-    bash \
-    openssh-client \
-    supervisor \
-    php7.3-cli \
-    php7.3-curl \
-    php7.3-json \
-    tzdata \
-    curl \
-    git && \
+        bash \
+        openssh-client \
+        supervisor \
+        php7.3-cli \
+        php7.3-curl \
+        php7.3-json \
+        tzdata \
+        curl \
+        libjemalloc-dev \
+        git && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir -p /var/log/supervisor
 
