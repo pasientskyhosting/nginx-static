@@ -18,6 +18,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir -p /var/log/supervisor
 
+ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so
 ADD conf/supervisord.conf /etc/supervisord.conf
 
 # Copy our nginx config
