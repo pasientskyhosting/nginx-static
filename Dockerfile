@@ -43,21 +43,6 @@ ADD https://www.openssl.org/source/openssl-$OPENSSL_VERSION.tar.gz /tmp/openssl.
 ADD https://zlib.net/zlib-$ZLIB_VERSION.tar.gz /tmp/zlib.tar.gz
 ADD https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz /tmp/nginx.tar.gz
 
-RUN tar -C /tmp -xf /tmp/pcre.tar.gz && \
-    tar -C /tmp -xf /tmp/zlib.tar.gz && \
-    tar -C /tmp -xf /tmp/openssl.tar.gz && \
-    tar -C /tmp -xf /tmp/brotli.tar.gz && \
-    tar -C /tmp -xf /tmp/ngx_brotli.tar.gz && \
-    tar -C /tmp -xf /tmp/nginx.tar.gz && \
-    mv /tmp/brotli-$BROTLI_VERSION/* /tmp/ngx_brotli-$NGX_BROTLI_VERSION/deps/brotli && \
-    apt update && \
-    apt install -y gcc g++ perl make ca-certificates && \
-    cd /tmp/nginx-$NGINX_VERSION && \
-    ./configure $CONFIG && \
-    make && make install
-
-RUN cp /tmp/nginx-$NGINX_VERSION/objs/nginx /
-
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y -q --install-recommends --no-install-suggests \
@@ -71,9 +56,26 @@ RUN apt-get update && \
     tzdata \
     curl \
     libjemalloc-dev \
-    git && \
+    git \
+    gcc \
+    g++ \
+    perl \
+    make \
+    ca-certificates && \
+    mkdir -p /var/log/supervisor && \
+    tar -C /tmp -xf /tmp/pcre.tar.gz && \
+    tar -C /tmp -xf /tmp/zlib.tar.gz && \
+    tar -C /tmp -xf /tmp/openssl.tar.gz && \
+    tar -C /tmp -xf /tmp/brotli.tar.gz && \
+    tar -C /tmp -xf /tmp/ngx_brotli.tar.gz && \
+    tar -C /tmp -xf /tmp/nginx.tar.gz && \
+    mv /tmp/brotli-$BROTLI_VERSION/* /tmp/ngx_brotli-$NGX_BROTLI_VERSION/deps/brotli && \
+    cd /tmp/nginx-$NGINX_VERSION && \
+    ./configure $CONFIG && \
+    make && make install && \
+    apt-get purge -y -q gcc g++ perl make && \
     rm -rf /var/lib/apt/lists/* && \
-    mkdir -p /var/log/supervisor
+    rm -rf /tmp/*
 
 ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so
 ADD conf/supervisord.conf /etc/supervisord.conf
