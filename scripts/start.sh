@@ -69,5 +69,8 @@ fi
 # Always chown webroot for better mounting
 #chown -Rf nginx.nginx /var/www/html
 
+# brotli compression
+find /var/www/html -name '*.css' -or -name '*.js' -or -name '*.html' | xargs brotli
+
 # Start supervisord and services
 exec /usr/bin/supervisord -n -c /etc/supervisord.conf
