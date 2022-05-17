@@ -1,4 +1,4 @@
-FROM nginx:1.17
+FROM nginx:mainline
 
 LABEL maintainer "Andreas Krüger <ak@patientsky.com>"
 
